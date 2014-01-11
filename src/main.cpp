@@ -7,15 +7,11 @@ int main() {
 	llist->insertAtEnd(5);
 	llist->insertAtEnd(9);
 	llist->insertAtEnd(20);
+	llist->insertAtIndex(20, 2);
+	llist->insertAtEnd(9);
 	llist->printList();
-	cout << "\n" << "length: " << llist->getLength() << "\n";
-	llist->insertAtIndex(10, 2);
-	cout << "\n";
+	llist->deleteDupElementsFromLinkedList();
 	llist->printList();
-	cout << "\n\n";
-	llist->deleteElement(1);
-	llist->printList();
-	cout << "\n\n";
 	llist->reverseList();
 	llist->printList();
 	return 0;

@@ -23,6 +23,7 @@ public:
 	void deleteFromBeginning();
 	void deleteFromEnd();
 	void deleteElement(T);
+	void deleteDupElementsFromLinkedList();
 	void deleteAfterElement(T);
 	void reverseList();
 	int isEmpty();
@@ -130,7 +131,6 @@ void LinkedList<T>::deleteFromEnd() {
 
 template<class T>
 void LinkedList<T>::deleteElement(T value) {
-	Node<T> *temp, *ntemp;
 	if (head == NULL)
 		return;
 	else if (head->getInfo() == value) {
@@ -152,6 +152,25 @@ void LinkedList<T>::deleteElement(T value) {
 }
 
 template<class T>
+void LinkedList<T>::deleteDupElementsFromLinkedList() {
+	if (head == NULL) {
+		return;
+	} else {
+		Node<T> *curNode = head;
+		while (curNode->getNext() != NULL) {
+			Node<T> *runNode = curNode;
+			while (runNode->getNext() != NULL) {
+				if (runNode->getNext()->getInfo() == curNode->getInfo()) {
+					runNode->setNext(runNode->getNext()->getNext());
+				}
+				runNode = runNode->getNext();
+			}
+			curNode = curNode->getNext();
+		}
+	}
+}
+
+template<class T>
 void LinkedList<T>::reverseList() {
 	if (head == NULL)
 		return;
@@ -162,8 +181,7 @@ void LinkedList<T>::reverseList() {
 	nextNode = curNode->getNext();
 	curNode->setNext(NULL);
 
-	while(nextNode != NULL)
-	{
+	while (nextNode != NULL) {
 		prevNode = curNode;
 		curNode = nextNode;
 		nextNode = nextNode->getNext();
@@ -182,12 +200,12 @@ int LinkedList<T>::isEmpty() {
 
 template<class T>
 void LinkedList<T>::printList() {
-	cout<<endl;
 	Node<T> *temp = head;
 	while (temp != NULL) {
 		cout << temp->getInfo() << " ";
 		temp = temp->getNext();
 	}
+	cout << endl << endl;
 }
 
 template<class T>

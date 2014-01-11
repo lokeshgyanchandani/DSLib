@@ -28,37 +28,43 @@ Node<T> :: Node() : info(T()), next(NULL), prev (NULL)
 template <class T>
 T Node<T> :: getInfo() const
 {
-	return info;
+	if (this != NULL)
+		return info;
 }
 
 template <class T>
 void Node<T> :: setInfo(T info)
 {
-	this->info = info;
+	if (this != NULL)
+		this->info = info;
 }
 
 template <class T>
 Node<T> * Node<T> :: getNext() const
 {
-	return next;
+	if (this != NULL)
+		return next;
 }
 
 template <class T>
 void Node<T> :: setNext(Node<T> * next)
 {
-	this->next = next;
+	if (this != NULL)
+		this->next = next;
 }
 
 template <class T>
 Node<T> * Node<T> :: getPrev() const
 {
-	return prev;
+	if (this != NULL)
+		return prev;
 }
 
 template <class T>
 void Node<T> :: setPrev(Node<T> * prev)
 {
-	this->prev = prev;
+	if (this != NULL)
+		this->prev = prev;
 }
 
 #endif
