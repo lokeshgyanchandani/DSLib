@@ -133,22 +133,20 @@ void LinkedList<T>::deleteElement(T value) {
 	Node<T> *temp, *ntemp;
 	if (head == NULL)
 		return;
-	else {
-		temp = NULL;
-		ntemp = head;
-		while (ntemp != NULL && ntemp->getInfo() != value) {
-			temp = ntemp;
-			ntemp = ntemp->getNext();
-		}
-		if (ntemp != NULL && ntemp->getInfo() == value) {
-			if (ntemp == head) {
-				temp = head;
-				head = head->getNext();
-				delete temp;
-			} else {
-				temp->setNext(ntemp->getNext());
-				delete ntemp;
+	else if (head->getInfo() == value) {
+		Node<T> *temp = head;
+		head = head->getNext();
+		delete temp;
+	} else {
+		Node<T> *temp = head;
+		while (temp->getNext() != NULL) {
+			if (temp->getNext()->getInfo() == value) {
+				Node<T> *ptr = temp->getNext();
+				temp->setNext(temp->getNext()->getNext());
+				delete ptr;
+				return;
 			}
+			temp = temp->getNext();
 		}
 	}
 }
