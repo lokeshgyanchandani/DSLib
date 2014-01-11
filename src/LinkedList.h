@@ -27,8 +27,10 @@ class LinkedList {
 		void deleteElement(T);
 		void deleteDupElementsFromLinkedList();
 		void deleteAfterElement(T);
+		void deleteMiddleElement(Node<T> * middle);
 		T getNthToLastValue(Node<T> *head, int n);
-		Node<T> * getNthToLastNode(Node<T> *head, int n);
+		Node<T> * getNthToLastElement(int n);
+		Node<T> * getMiddleElement();
 		void reverseList();
 		int isEmpty();
 		void printList();
@@ -180,6 +182,20 @@ void LinkedList<T>::deleteDupElementsFromLinkedList() {
 }
 
 template<class T>
+void LinkedList<T>::deleteMiddleElement(Node<T> * middle) {
+	if (head == NULL || middle == NULL)
+		return;
+
+	Node<T> *prevPtr = head;
+
+	while (prevPtr->getNext() != NULL && prevPtr->getNext() != middle) {
+		prevPtr=prevPtr->getNext();
+	}
+
+	prevPtr->setNext(prevPtr->getNext()->getNext());
+}
+
+template<class T>
 T LinkedList<T>::getNthToLastValue(Node<T> *head, int n) {
 	static bool found = false;
 	if (head == NULL || n == 0)
@@ -197,7 +213,7 @@ T LinkedList<T>::getNthToLastValue(Node<T> *head, int n) {
 }
 
 template<class T>
-Node<T> * LinkedList<T>::getNthToLastNode(Node<T> *head, int n) {
+Node<T> * LinkedList<T>::getNthToLastElement(int n) {
 	if (head == NULL)
 		return NULL;
 
@@ -219,6 +235,24 @@ Node<T> * LinkedList<T>::getNthToLastNode(Node<T> *head, int n) {
 	}
 
 	return ptr1;
+}
+
+template<class T>
+Node<T> * LinkedList<T>::getMiddleElement() {
+	if (head == NULL || head->getNext() == NULL)
+		return NULL;
+
+	Node<T> *slowPtr = head;
+	Node<T> *fastPtr = head->getNext();
+
+	while (fastPtr != NULL) {
+		if (fastPtr->getNext() == NULL)
+			return NULL;
+		fastPtr = fastPtr->getNext()->getNext();
+		slowPtr = slowPtr->getNext();
+	}
+
+	return slowPtr;
 }
 
 template<class T>

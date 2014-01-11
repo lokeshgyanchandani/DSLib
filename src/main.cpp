@@ -8,9 +8,9 @@ int main() {
 	llist->insertAtEnd(9);
 	llist->insertAtEnd(20);
 	llist->insertAtIndex(20, 2);
-	llist->insertAtEnd(9);
+	llist->insertAtEnd(100);
 	llist->printList();
-	cout<<llist->getNthToLastNode(llist->getHead(), 7)->getInfo();
+	llist->deleteMiddleElement(llist->getMiddleElement());
 	llist->reverseList();
 	llist->printList();
 	return 0;
