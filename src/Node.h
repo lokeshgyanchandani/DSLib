@@ -30,6 +30,7 @@ T Node<T> :: getInfo() const
 {
 	if (this != NULL)
 		return info;
+	return -1;
 }
 
 template <class T>
@@ -44,6 +45,7 @@ Node<T> * Node<T> :: getNext() const
 {
 	if (this != NULL)
 		return next;
+	return NULL;
 }
 
 template <class T>
@@ -58,6 +60,7 @@ Node<T> * Node<T> :: getPrev() const
 {
 	if (this != NULL)
 		return prev;
+	return NULL;
 }
 
 template <class T>

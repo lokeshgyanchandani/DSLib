@@ -10,8 +10,7 @@ int main() {
 	llist->insertAtIndex(20, 2);
 	llist->insertAtEnd(9);
 	llist->printList();
-	llist->deleteDupElementsFromLinkedList();
-	llist->printList();
+	cout<<llist->getNthToLastNode(llist->getHead(), 7)->getInfo();
 	llist->reverseList();
 	llist->printList();
 	return 0;

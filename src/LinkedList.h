@@ -9,26 +9,30 @@ using namespace std;
 
 template<class T>
 class LinkedList {
-private:
-	Node<T> *head;
+	private:
+		Node<T> *head;
 
-public:
-	LinkedList();
-	~LinkedList();
+	public:
+		LinkedList();
+		~LinkedList();
 
-	void insertAtBeginning(T);
-	void insertAtIndex(T, int);
-	void insertAfterElement(T, T);
-	void insertAtEnd(T);
-	void deleteFromBeginning();
-	void deleteFromEnd();
-	void deleteElement(T);
-	void deleteDupElementsFromLinkedList();
-	void deleteAfterElement(T);
-	void reverseList();
-	int isEmpty();
-	void printList();
-	int getLength();
+		Node<T> *getHead() const;
+
+		void insertAtBeginning(T);
+		void insertAtIndex(T, int);
+		void insertAfterElement(T, T);
+		void insertAtEnd(T);
+		void deleteFromBeginning();
+		void deleteFromEnd();
+		void deleteElement(T);
+		void deleteDupElementsFromLinkedList();
+		void deleteAfterElement(T);
+		T getNthToLastValue(Node<T> *head, int n);
+		Node<T> * getNthToLastNode(Node<T> *head, int n);
+		void reverseList();
+		int isEmpty();
+		void printList();
+		int getLength();
 };
 
 template<class T>
@@ -44,6 +48,11 @@ LinkedList<T>::~LinkedList() {
 		head = head->next;
 		delete temp;
 	}
+}
+
+template<class T>
+Node<T> * LinkedList<T> :: getHead() const {
+	return head;
 }
 
 template<class T>
@@ -171,6 +180,48 @@ void LinkedList<T>::deleteDupElementsFromLinkedList() {
 }
 
 template<class T>
+T LinkedList<T>::getNthToLastValue(Node<T> *head, int n) {
+	static bool found = false;
+	if (head == NULL || n == 0)
+		return 0;
+	int count = 1 + getNthToLastValue(head->getNext(), n);
+	if (found == true) {
+		return count - 1;
+	}
+	else if (count == n) {
+		found = true;
+		return head->getInfo();
+	}
+
+	return count;
+}
+
+template<class T>
+Node<T> * LinkedList<T>::getNthToLastNode(Node<T> *head, int n) {
+	if (head == NULL)
+		return NULL;
+
+	Node<T> *ptr1, *ptr2;
+	ptr1 = ptr2 = head;
+
+	for (int i = 0; i < n - 1; i++) {
+		if (ptr2 == NULL)
+			return NULL;
+		ptr2 = ptr2->getNext();
+	}
+
+	if (ptr2 == NULL)
+		return NULL;
+
+	while (ptr2->getNext() != NULL) {
+		ptr2 = ptr2->getNext();
+		ptr1 = ptr1->getNext();
+	}
+
+	return ptr1;
+}
+
+template<class T>
 void LinkedList<T>::reverseList() {
 	if (head == NULL)
 		return;
@@ -200,12 +251,13 @@ int LinkedList<T>::isEmpty() {
 
 template<class T>
 void LinkedList<T>::printList() {
+	cout <<  endl;
 	Node<T> *temp = head;
 	while (temp != NULL) {
 		cout << temp->getInfo() << " ";
 		temp = temp->getNext();
 	}
-	cout << endl << endl;
+	cout << endl;
 }
 
 template<class T>
