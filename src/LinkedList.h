@@ -17,6 +17,7 @@ class LinkedList {
 		~LinkedList();
 
 		Node<T> *getHead() const;
+		void setHead(Node<T> *);
 
 		void insertAtBeginning(T);
 		void insertAtIndex(T, int);
@@ -27,10 +28,12 @@ class LinkedList {
 		void deleteElement(T);
 		void deleteDupElementsFromLinkedList();
 		void deleteAfterElement(T);
-		void deleteMiddleElement(Node<T> * middle);
-		T getNthToLastValue(Node<T> *head, int n);
-		Node<T> * getNthToLastElement(int n);
+		void deleteMiddleElement(Node<T> *);
+		T getNthToLastValue(Node<T> *, int);
+		Node<T> * getNthToLastElement(int);
 		Node<T> * getMiddleElement();
+		Node<T> * addLists(Node<T> *, Node<T> *, int);
+		int linkedlistToInt(Node<T> *);
 		void reverseList();
 		int isEmpty();
 		void printList();
@@ -55,6 +58,12 @@ LinkedList<T>::~LinkedList() {
 template<class T>
 Node<T> * LinkedList<T> :: getHead() const {
 	return head;
+}
+
+template<class T>
+void LinkedList<T>::setHead(Node<T> * head) {
+	if (this != NULL)
+		this->head = head;
 }
 
 template<class T>
@@ -253,6 +262,35 @@ Node<T> * LinkedList<T>::getMiddleElement() {
 	}
 
 	return slowPtr;
+}
+
+template<class T>
+Node<T> * LinkedList<T>::addLists(Node<T> * l1, Node<T> * l2, int carry) {
+	if (l1 == NULL && l2 == NULL && carry == 0)
+		return NULL;
+
+	Node<T> * sumPtr = new Node<T>();
+	int sum = carry;
+	if (l1 != NULL)
+		sum += l1->getInfo();
+	if (l2 != NULL)
+		sum += l2->getInfo();
+
+	sumPtr->setInfo(sum % 10);
+
+	if (l1 != NULL || l2 != NULL) {
+		sumPtr->setNext(addLists(l1->getNext(), l2->getNext(), sum / 10));
+	}
+
+	return sumPtr;
+}
+
+template<class T>
+int LinkedList<T>::linkedlistToInt(Node<T> * node) {
+	int result = 0;
+	if (node->getNext() != NULL)
+		result = 10 * linkedlistToInt(node->getNext());
+	return result + node->getInfo();
 }
 
 template<class T>
