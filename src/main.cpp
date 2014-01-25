@@ -1,7 +1,7 @@
 #include <iostream>
 #include "LinkedList.h"
 
-int main() {
+/*int main() {
 	LinkedList<int> *llist1 = new LinkedList<int>();
 	llist1->insertAtEnd(3);
 	llist1->insertAtEnd(1);
@@ -15,4 +15,4 @@ int main() {
 	llist3->printList();
 	cout<<llist3->linkedlistToInt(llist3->getHead());
 	return 0;
-}
+}*/
