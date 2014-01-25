@@ -1,11 +1,14 @@
+#include <fstream>
 #include <iostream>
-#include <list>
 #include <iterator>
+#include <list>
 #include <map>
+#include <string>
 
 using namespace std;
 
-list<string> listOfStrings[4];
+list<string> *listOfStrings;
+int countOfWords;
 
 struct TrieNode {
 	int freq;
@@ -48,10 +51,46 @@ class Trie {
 				for (iter = node->child_map.begin(); iter != node->child_map.end(); iter++) {
 					string next_prefix = prefix + (char)iter->first;
 					if(iter->second->freq > 0)
-						listOfStrings[iter->second->freq].push_front(next_prefix);
+						listOfStrings[iter->second->freq - 1].push_back(next_prefix);
 					iterate(iter->second, next_prefix);
 				}
 			}
+		}
+
+		void printInReverseFreq() {
+			iterate();
+
+			for (int index = countOfWords - 1; index >= 0; index--)
+			{
+				list<string>::iterator iter;
+				for (iter = listOfStrings[index].begin(); iter != listOfStrings[index].end(); iter++)
+				{
+					cout<<"\n"<<*iter<<" ";
+				}
+			}
+		}
+
+		list<string> getTopNMostFrequent(int num) {
+			iterate();
+
+			list<string> topNList;
+			for (int index = countOfWords - 1; index >= 0; index--)
+			{
+				if (num > 0) {
+					list<string>::iterator iter;
+					for (iter = listOfStrings[index].begin(); iter != listOfStrings[index].end(); iter++)
+					{
+						if (num-- > 0) {
+							topNList.push_back(*iter);
+						} else {
+							break;
+						}
+					}
+				} else {
+					break;
+				}
+			}
+			return topNList;
 		}
 
 	private:
@@ -68,28 +107,41 @@ class Trie {
 		}
 };
 
-int main()
-{
+list<string> getTopNMostFrequent(string file_string, int num) {
 	Trie *trie = new Trie();
-	trie->insert("one");
-	trie->insert("two");
-	trie->insert("one;");
-	trie->insert("one;");
-	trie->insert("one;");
-	trie->insert("two");
-	trie->insert("two");
-	cout<<"Added all";
 
-	trie->iterate();
+	list<string> topNList;
 
-	for (unsigned int index = 3; index > 0; index--)
-	{
-		list<string>::iterator iter;
-		for (iter = listOfStrings[index].begin(); iter != listOfStrings[index].end(); iter++)
-		{
-			cout<<"\n"<<*iter<<" ";
+	char ch;
+	const char *file_name = file_string.c_str();
+	FILE *file = fopen(file_name, "r");
+	if (file) {
+		string word = "";
+		while ((ch = getc(file)) != EOF) {
+			if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n' || ch == '\x0b') {
+				countOfWords++;
+				trie->insert(word);
+				word = "";
+			} else {
+				word += ch;
+			}
 		}
+
+		listOfStrings = new list<string>[countOfWords];
+
+		topNList = trie->getTopNMostFrequent(num);
+
+		fclose(file);
 	}
 
-	cout<<"\n"<<"print";
+	return topNList;
+}
+
+int main()
+{
+	list<string> topNList = getTopNMostFrequent("test", 2);
+	for(list<string>::iterator iter = topNList.begin(); iter != topNList.end(); ++iter)
+	{
+	     cout<<*iter<<"\n";
+	}
 }
