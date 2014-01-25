@@ -27,11 +27,13 @@ class Trie {
 		void insert(string word)
 		{
 			TrieNode *temp = root;
-			for (unsigned int index = 0; index < word.length(); index++) {
-				if (temp->child_map.find(word[index]) == temp->child_map.end()) {
-					temp->child_map[word[index]] = new TrieNode;
+			string::iterator iter_word = word.begin();
+			for (iter_word = word.begin(); iter_word != word.end(); iter_word++) {
+				char cur_char = *iter_word;
+				if (temp->child_map.find(cur_char) == temp->child_map.end()) {
+					temp->child_map[cur_char] = new TrieNode;
 				}
-				temp = temp->child_map[word[index]];
+				temp = temp->child_map[cur_char];
 			}
 			temp->freq++;
 		}
@@ -71,9 +73,9 @@ int main()
 	Trie *trie = new Trie();
 	trie->insert("one");
 	trie->insert("two");
-	trie->insert("one");
 	trie->insert("one;");
-	trie->insert("one");
+	trie->insert("one;");
+	trie->insert("one;");
 	trie->insert("two");
 	trie->insert("two");
 	cout<<"Added all";
